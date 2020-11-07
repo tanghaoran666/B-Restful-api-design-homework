@@ -54,7 +54,31 @@ public class StudentService {
         students.add(student);
     }
 
+    public void deleteStudent(int id) {
+        if (id > students.size()) {
+            throw new NotMatchException("id illegal");
+        }
+        students.remove(id - 1);
+    }
+
+    public Student getStudent(int id) {
+        if (id > students.size()) {
+            throw new NotMatchException("id illegal");
+        }
+        return students.get(id - 1);
+    }
+
+    public Student updateStudent(int id, Student student) {
+        if (id > students.size()) {
+            throw new NotMatchException("id illegal");
+        }
+        students.remove(id - 1);
+        student.setId(id);
+        students.add(id - 1, student);
+        return student;
+    }
     // TODO GTB-工程实践: - 长方法，建议抽子方法来提高可读性
+
     public void divideGroups() {
         groups.clear();
         // TODO GTB-工程实践: - 为什么不直接使用groups来分组？
@@ -82,28 +106,10 @@ public class StudentService {
 
     }
 
-    public void deleteStudent(int id) {
-        if (id > students.size()) {
-            throw new NotMatchException("id illegal");
-        }
-        students.remove(id - 1);
-    }
-
-    public Student getStudent(int id) {
-        if (id > students.size()) {
-            throw new NotMatchException("id illegal");
-        }
-        return students.get(id - 1);
-    }
-
-    public Student updateStudent(int id, Student student) {
-        if (id > students.size()) {
-            throw new NotMatchException("id illegal");
-        }
-        students.remove(id - 1);
-        student.setId(id);
-        students.add(id - 1, student);
-        return student;
+    public Group updateGroup(int id, String name) {
+        Group group = groups.get(id - 1);
+        group.setName(name);
+        return group;
     }
 }
 
