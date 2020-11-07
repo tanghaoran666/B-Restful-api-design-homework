@@ -72,7 +72,7 @@ public class StudentService {
             if (groupIndex == 7) groupIndex = 1;
         }
         for (int i = 1; i < 7; i++) {
-            groups.add(new Group(i, groupMap.get(i)));
+            groups.add(Group.builder().id(i).name(i + "组").students(groupMap.get(i)).note("").build());
         }
 
     }
