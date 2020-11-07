@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,14 +27,14 @@ public class StudentController {
     StudentService studentService;
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getStudents() {
-        List<Student> students = studentService.getStudents();
+    public ResponseEntity<List<Student>> getStudents(@RequestParam(value = "gender", required = false) String gender) {
+        List<Student> students = studentService.getStudents(gender);
         return ResponseEntity.ok(students);
     }
 
     @PostMapping("/students")
-    public ResponseEntity createStudent(@RequestBody String name) {
-        studentService.createStudent(name);
+    public ResponseEntity createStudent(@RequestBody Student student) {
+        studentService.createStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -50,7 +51,6 @@ public class StudentController {
     }
 
     @PostMapping("/groups")
-    // TODO GTB-知识点: - 违反Restful实践, Post请求成功后应该返回201
     public ResponseEntity<List<Group>> divideGroups() {
         studentService.divideGroups();
         List<Group> groups = studentService.getGroups();

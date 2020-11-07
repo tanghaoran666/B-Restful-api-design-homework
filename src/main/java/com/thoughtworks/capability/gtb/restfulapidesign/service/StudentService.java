@@ -15,7 +15,7 @@ import java.util.Map;
 public class StudentService {
     List<Student> students = new ArrayList<>();
     List<Group> groups = new ArrayList<>();
-
+    int studentId = 10;
     // TODO GTB-知识点: - 应该使用Repository层保存数据
     StudentService() {
         init();
@@ -23,30 +23,33 @@ public class StudentService {
 
     public void init() {
         students.removeAll(students);
-        students.add(new Student(1, "成吉思汗"));
-        students.add(new Student(2, "鲁班七号"));
-        students.add(new Student(3, "太乙真人"));
-        students.add(new Student(4, "钟无艳"));
-        students.add(new Student(5, "花木兰"));
-        students.add(new Student(6, "雅典娜"));
-        students.add(new Student(7, "芈月"));
-        students.add(new Student(8, "白起"));
-        students.add(new Student(9, "刘禅"));
-        students.add(new Student(10, "庄周"));
-        students.add(new Student(11, "马超"));
-        students.add(new Student(12, "刘备"));
-        students.add(new Student(13, "哪吒"));
-        students.add(new Student(14, "大乔"));
-        students.add(new Student(15, "蔡文姬"));
+        students.add(Student.builder().name("成吉思汗").gender("male").id(1).note("").build());
+        students.add(Student.builder().name("鲁班七号").gender("male").id(2).note("").build());
+        students.add(Student.builder().name("太乙真人").gender("male").id(3).note("").build());
+        students.add(Student.builder().name("钟无艳").gender("female").id(4).note("").build());
+        students.add(Student.builder().name("花木兰").gender("female").id(5).note("").build());
+        students.add(Student.builder().name("雅典娜").gender("female").id(6).note("").build());
+        students.add(Student.builder().name("芈月").gender("female").id(7).note("").build());
+        students.add(Student.builder().name("白起").gender("male").id(8).note("").build());
+        students.add(Student.builder().name("刘禅").gender("male").id(9).note("").build());
+        students.add(Student.builder().name("庄周").gender("male").id(10).note("").build());
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public List<Student> getStudents(String gender) {
+        if (gender == null) {
+            return students;
+        } else {
+            List<Student> genderStudents = new ArrayList<>();
+            for (Student student : students) {
+                if (student.getGender().equals(gender)) genderStudents.add(student);
+            }
+            return genderStudents;
+        }
     }
 
-    public void createStudent(String name) {
-        // TODO GTB-工程实践: - 计算id的方式不够健壮，可以使用字段保存最大id
-        Student student = new Student(students.size() + 1, name);
+    public void createStudent(Student student) {
+        student.setId(studentId + 1);
+        studentId++;
         students.add(student);
     }
 
@@ -67,7 +70,6 @@ public class StudentService {
             groupIndex++;
             if (groupIndex == 7) groupIndex = 1;
         }
-        // TODO GTB-工程实践: - 注意代码风格，需要适当的添加空格
         for (int i = 1; i < 7; i++) {
             groups.add(new Group(i, groupMap.get(i)));
         }
