@@ -15,31 +15,38 @@ public class GroupService {
     @Autowired
     StudentService studentService;
 
-    List<Group> groups = new ArrayList<>();
-    // TODO GTB-工程实践: - 长方法，建议抽子方法来提高可读性
+    List<Group> groupRepository = new ArrayList<>();
 
     public void divideGroups() {
-        groups.clear();
-        for (int i = 1; i <= GROUP_SIZE; i++) {
-            groups.add(Group.builder()
-                    .id(i).name(i + "组").note("").students(new ArrayList<>()).build());
-        }
-        List<Student> randomStudents = new ArrayList<>(studentService.students);
+        groupInit();
+        List<Student> randomStudents = new ArrayList<>(studentService.studentRepository);
         Collections.shuffle(randomStudents);
+        divideRandomStudents(randomStudents);
+    }
+
+    private void divideRandomStudents(List<Student> randomStudents) {
         int groupIndex = 1;
         for (Student randomStudent : randomStudents) {
-            groups.get(groupIndex - 1).getStudents().add(randomStudent);
+            groupRepository.get(groupIndex - 1).getStudents().add(randomStudent);
             groupIndex++;
             if (groupIndex == 7) groupIndex = 1;
         }
     }
 
+    private void groupInit() {
+        groupRepository.clear();
+        for (int i = 1; i <= GROUP_SIZE; i++) {
+            groupRepository.add(Group.builder()
+                    .id(i).name(i + "组").note("").students(new ArrayList<>()).build());
+        }
+    }
+
     public List<Group> getGroups() {
-        return groups;
+        return groupRepository;
     }
 
     public Group updateGroup(int id, String name) {
-        Group group = groups.get(id - 1);
+        Group group = groupRepository.get(id - 1);
         group.setName(name);
         return group;
     }
