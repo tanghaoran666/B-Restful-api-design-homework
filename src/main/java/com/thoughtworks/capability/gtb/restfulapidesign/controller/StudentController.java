@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
-
 
 @RestController
 @CrossOrigin(origins = "http://localhost:1234")
@@ -40,7 +40,7 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity createStudent(@RequestBody Student student) {
+    public ResponseEntity createStudent(@RequestBody @Valid Student student) {
         Student createdstudent = studentService.createStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdstudent);
     }
