@@ -2,6 +2,7 @@ package com.thoughtworks.capability.gtb.restfulapidesign.service;
 
 import com.thoughtworks.capability.gtb.restfulapidesign.bo.Group;
 import com.thoughtworks.capability.gtb.restfulapidesign.bo.Student;
+import com.thoughtworks.capability.gtb.restfulapidesign.exception.NotMatchException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -82,7 +83,27 @@ public class StudentService {
     }
 
     public void deleteStudent(int id) {
+        if (id > students.size()) {
+            throw new NotMatchException("id illegal");
+        }
         students.remove(id - 1);
+    }
+
+    public Student getStudent(int id) {
+        if (id > students.size()) {
+            throw new NotMatchException("id illegal");
+        }
+        return students.get(id - 1);
+    }
+
+    public Student updateStudent(int id, Student student) {
+        if (id > students.size()) {
+            throw new NotMatchException("id illegal");
+        }
+        students.remove(id - 1);
+        student.setId(id);
+        students.add(id - 1, student);
+        return student;
     }
 }
 

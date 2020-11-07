@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,12 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/students/{id}")
+    public ResponseEntity<Student> getStudentById(@PathVariable int id) {
+        Student student = studentService.getStudent(id);
+        return ResponseEntity.ok(student);
+    }
+
     @PostMapping("/students")
     public ResponseEntity createStudent(@RequestBody Student student) {
         studentService.createStudent(student);
@@ -42,6 +49,12 @@ public class StudentController {
     public ResponseEntity deleteStudent(@PathVariable int id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/students/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable int id, @RequestBody Student student) {
+        Student updateStudent = studentService.updateStudent(id, student);
+        return ResponseEntity.ok().body(updateStudent);
     }
 
     @GetMapping("/groups")
